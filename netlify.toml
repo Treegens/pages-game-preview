@@ -1,0 +1,9 @@
+# Plain static folder: index.html plus assets, no build step.
+#
+# Without this file the Netlify CLI walks up to the ClaudeCode root
+# netlify.toml, which runs `npm run build` with @netlify/plugin-nextjs against
+# the unrelated Next.js app at the root and then tries to publish
+# treegens-game/.next, which does not exist.
+[build]
+  command = ""
+  publish = "."

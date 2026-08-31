@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <!-- Same CSP as _headers minus frame-ancestors (ignored in meta). This is the
+       ONLY policy the Capacitor app gets: WebViews never see Netlify headers. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://treegens-api.netlify.app https://mainnet.base.org https://1rpc.io https://base.llamarpc.com https://api.dexscreener.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; manifest-src 'self'; worker-src 'self'; frame-src 'none'; media-src 'self'; upgrade-insecure-requests" />
+  <title>Treegens Game - The Reforestation Metaverse</title>
+  <meta name="description" content="A free educational reforestation game. Play virtual restoration scenarios, evolve a Treegen, and explore live Treegens planting totals." />
+  <link rel="canonical" href="https://treegens-game.netlify.app/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Treegens Game" />
+  <meta property="og:title" content="Treegens - The Reforestation Metaverse" />
+  <meta property="og:description" content="⚡ Face the Daily Storm. 🌍 Explore restoration scenarios. 🌱 Evolve your Treegen in a clearly labelled demo economy." />
+  <meta property="og:image" content="https://treegens-game.netlify.app/treegen-social-279697be.jpg" />
+  <meta property="og:image:secure_url" content="https://treegens-game.netlify.app/treegen-social-279697be.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1080" />
+  <meta property="og:image:height" content="1080" />
+  <meta property="og:image:alt" content="Treegen, the established Treegens tree character, on a green background." />
+  <meta property="og:url" content="https://treegens-game.netlify.app/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@treegens" />
+  <meta name="twitter:title" content="Treegens - The Reforestation Metaverse" />
+  <meta name="twitter:description" content="⚡ Face the Daily Storm. 🌍 Explore restoration scenarios. 🌱 Grow a virtual grove." />
+  <meta name="twitter:image" content="https://treegens-game.netlify.app/treegen-social-279697be.jpg" />
+  <meta name="twitter:image:alt" content="Treegen, the established Treegens tree character, on a green background." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌳</text></svg>" />
+  <link rel="preconnect" href="https://treegens-api.netlify.app" />
+  <link rel="dns-prefetch" href="https://mainnet.base.org" />
+  <link rel="dns-prefetch" href="https://api.dexscreener.com" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0a140d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#launch-play">Skip to Play now</a>
+  <div id="spores" aria-hidden="true"></div>
+
+  <main id="launch" class="launch">
+    <header class="launch-head">
+      <p class="launch-kicker">Treegens Game</p>
+      <h1>The Reforestation Metaverse</h1>
+      <p class="launch-loop">Catch falling seeds, heal virtual red zones, and grow a Treegen. This is an educational game: play does not plant real trees or move money.</p>
+    </header>
+
+    <figure class="launch-media">
+      <img src="banner.png" width="1200" height="630" alt="Treegens Game banner: a stylized tree and TGN coin beside the title The Reforestation Metaverse. Play is a local simulation." />
+      <figcaption>Game banner shipped with this build. Play is a local simulation and does not plant real trees or move money. There is no separate trailer file in this build.</figcaption>
+    </figure>
+
+    <section class="launch-status" aria-live="polite">
+      <h2 class="launch-h2">Compatibility and loading</h2>
+      <p id="launch-compat">Checking whether this browser can run 3D…</p>
+      <p id="launch-progress">Waiting to load the game…</p>
+      <div id="launch-bar" class="launch-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Game load progress">
+        <div id="launch-bar-fill" class="launch-bar-fill"></div>
+      </div>
+      <p id="launch-save">Looking for a save on this device…</p>
+    </section>
+
+    <div class="launch-actions">
+      <button type="button" class="btn btn-primary" id="launch-play" disabled>Play now</button>
+      <button type="button" class="btn btn-ghost" id="launch-mute" aria-pressed="false">Sound on</button>
+      <button type="button" class="btn btn-ghost" id="launch-motion" aria-pressed="false">Motion on</button>
+      <button type="button" class="btn btn-ghost" id="launch-reset">Reset this device save</button>
+    </div>
+
+    <section id="launch-fallback" class="launch-fallback" hidden>
+      <h2 class="launch-h2">Play without 3D</h2>
+      <p>WebGL is how the grove and explore world draw. If this browser cannot create that context, Seed Storm, the world map, practice proof, and the demo market still work as 2D screens.</p>
+      <figure class="launch-media launch-media-sm">
+        <img src="apple-touch-icon.png" width="180" height="180" alt="Treegens Game app icon: a rounded green tree mark." />
+        <figcaption>App icon shipped with this build. Use it as a visual while 3D is unavailable.</figcaption>
+      </figure>
+      <h3>Supported browsers and devices</h3>
+      <ul>
+        <li>Recent Chrome, Firefox, Edge, or Safari on desktop</li>
+        <li>Recent iOS Safari or Android Chrome</li>
+        <li>3D needs WebGL (or WebGL2). The 2D path does not</li>
+        <li>A mouse, keyboard, or touch screen. Gamepad is not required</li>
+      </ul>
+      <h3>Troubleshooting</h3>
+      <ul>
+        <li>Update the browser and try again</li>
+        <li>Turn hardware acceleration on if the browser offers it</li>
+        <li>Close other tabs that are using the GPU</li>
+        <li>If 3D keeps failing, use the play button above. The 2D game does not need WebGL</li>
+      </ul>
+      <div class="launch-actions">
+        <button type="button" class="btn btn-ghost" id="launch-retry">Retry 3D check</button>
+        <button type="button" class="btn btn-ghost" id="launch-demo">Try First Flight</button>
+        <a class="btn btn-ghost" id="launch-waitlist" href="mailto:jimi@wemakeimpact.org?subject=Treegens%20Game%20updates">Email for updates</a>
+        <a class="btn btn-ghost" href="#how-it-works">Learn how it works</a>
+      </div>
+      <p class="hint">Retry keeps this device save. Reset is the only way to wipe it, and it asks first. Email for updates opens your mail app. There is no waitlist form and nothing is subscribed automatically. You can also add this page to your home screen from the browser menu.</p>
+      <details id="launch-diag" hidden>
+        <summary>Why 3D failed</summary>
+        <p id="launch-diag-body"></p>
+      </details>
+    </section>
+
+    <section id="launch-truth" class="launch-truth">
+      <h2 class="launch-h2">What play does and does not do</h2>
+      <dl>
+        <dt>In-game trees, TGN, MGRO, market, fund, and DAO</dt>
+        <dd>Local educational simulation. No cash value, no token mint, no NFT mint, and no money sent to a planting project.</dd>
+        <dt>Practice Proof of Plant</dt>
+        <dd>Stays on this device. It is never sent to the live Treegens verifier and does not prove a real tree was planted.</dd>
+        <dt>Public planting totals</dt>
+        <dd>Fetched separately from Treegens as aggregate public stats. They are not produced by catching seeds in this game.</dd>
+        <dt>Real $TGN</dt>
+        <dd>A separate Base token. The game can watch a public address you paste and can link out to buytgn.xyz. It never connects a wallet or moves funds.</dd>
+      </dl>
+    </section>
+
+    <section id="how-it-works" class="launch-how">
+      <h2 class="launch-h2">How a session works</h2>
+      <ol>
+        <li>Create a Treegen and play First Flight, a short Seed Storm tutorial.</li>
+        <li>Catch seeds in the Daily Storm or walk a 3D grove when WebGL works.</li>
+        <li>Heal virtual biomes, collect demo items, and optionally share a public score.</li>
+      </ol>
+      <p>A typical first session is a few minutes. Sound and motion can be reduced from the buttons above. Reset asks for confirmation and wipes this browser save only.</p>
+    </section>
+
+    <footer class="launch-foot">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </footer>
+  </main>
+
+  <main id="app" hidden>
+    <h1 class="sr-only">Treegens Game</h1>
+    <div id="app-root"><div class="boot">🌳 Loading the Reforestation Metaverse…</div></div>
+  </main>
+  <noscript><p class="noscript">Treegens Game needs JavaScript. You can still read our <a href="privacy.html">Privacy Policy</a> and <a href="terms.html">Terms</a>.</p></noscript>
+
+  <script defer src="launch.js"></script>
+  <script defer src="three.min.js"></script>
+  <script defer src="config.js"></script>
+  <script defer src="state.js"></script>
+  <script defer src="wallet.js"></script>
+  <script defer src="net.js"></script>
+  <script defer src="skins.js"></script>
+  <script defer src="exif.js"></script>
+  <script defer src="engine.js"></script>
+  <script defer src="quests.js"></script>
+  <script defer src="avatar.js"></script>
+  <script defer src="character3d.js"></script>
+  <script defer src="grove.js"></script>
+  <script defer src="world3d.js"></script>
+  <script defer src="worldmap.js"></script>
+  <script defer src="minigames.js"></script>
+  <script defer src="arcade.js"></script>
+  <script defer src="app.js"></script>
+</body>
+</html>

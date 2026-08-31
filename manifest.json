@@ -1,0 +1,12 @@
+{
+  "name": "Treegens Game - The Reforestation Metaverse",
+  "short_name": "Treegens",
+  "description": "Educational reforestation game. Grow a virtual grove and explore restoration scenarios. Gameplay does not plant real trees.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0a140d",
+  "theme_color": "#0a140d",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

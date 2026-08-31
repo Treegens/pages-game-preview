@@ -1,0 +1,106 @@
+# Security headers for every response. Cache-Control is deliberately NOT set
+# here: Netlify merges duplicate headers across matching rules, so caching is
+# assigned per-path below (each path matches exactly one Cache-Control rule).
+# tests/security.test.mjs asserts this file's invariants — keep it in sync.
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  X-Permitted-Cross-Domain-Policies: none
+  Permissions-Policy: geolocation=(self), camera=(), microphone=(), payment=(), usb=(), midi=(), magnetometer=(), gyroscope=(), accelerometer=(), fullscreen=(self)
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https://treegens-api.netlify.app https://mainnet.base.org https://1rpc.io https://base.llamarpc.com https://api.dexscreener.com; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; manifest-src 'self'; worker-src 'self'; frame-src 'none'; media-src 'self'; upgrade-insecure-requests
+
+# --- Route-specific caching ---
+# No asset here is content-hashed, so nothing may be marked immutable.
+# HTML, the service worker, and the manifest revalidate on every load so a new
+# release (or a rollback) propagates immediately.
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/privacy.html
+  Cache-Control: no-cache
+/privacy
+  Cache-Control: no-cache
+/terms.html
+  Cache-Control: no-cache
+/terms
+  Cache-Control: no-cache
+/sw.js
+  Cache-Control: no-cache
+/manifest.json
+  Cache-Control: no-cache
+
+# Mutable game code: always revalidate (ETag makes this a cheap 304).
+/app.js
+  Cache-Control: public, max-age=0, must-revalidate
+/launch.js
+  Cache-Control: public, max-age=0, must-revalidate
+/arcade.js
+  Cache-Control: public, max-age=0, must-revalidate
+/avatar.js
+  Cache-Control: public, max-age=0, must-revalidate
+/character3d.js
+  Cache-Control: public, max-age=0, must-revalidate
+/config.js
+  Cache-Control: public, max-age=0, must-revalidate
+/engine.js
+  Cache-Control: public, max-age=0, must-revalidate
+/exif.js
+  Cache-Control: public, max-age=0, must-revalidate
+/grove.js
+  Cache-Control: public, max-age=0, must-revalidate
+/minigames.js
+  Cache-Control: public, max-age=0, must-revalidate
+/net.js
+  Cache-Control: public, max-age=0, must-revalidate
+/quests.js
+  Cache-Control: public, max-age=0, must-revalidate
+/skins.js
+  Cache-Control: public, max-age=0, must-revalidate
+/state.js
+  Cache-Control: public, max-age=0, must-revalidate
+/styles.css
+  Cache-Control: public, max-age=0, must-revalidate
+/wallet.js
+  Cache-Control: public, max-age=0, must-revalidate
+/world3d.js
+  Cache-Control: public, max-age=0, must-revalidate
+/worldmap.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Stable vendored/static binaries (still revalidated hourly, never immutable).
+/three.min.js
+  Cache-Control: public, max-age=3600, must-revalidate
+/banner.png
+  Cache-Control: public, max-age=3600, must-revalidate
+/apple-touch-icon.png
+  Cache-Control: public, max-age=3600, must-revalidate
+/icon.svg
+  Cache-Control: public, max-age=3600, must-revalidate
+/treegens-logo.svg
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# Repo housekeeping files that ship because publish = ".": keep them out of
+# search indexes and always fresh. (Ideal fix is pruning them from the deploy.)
+/README.md
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
+/GAME-LOOP.md
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
+/serve.js
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
+/package.json
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
+/styles.css.bak-prepolish
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
+/tests/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-cache
